@@ -1,5 +1,6 @@
 package com.kris.webmagic;
 
+import com.kris.webmagic.util.ExcelUtil;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -19,28 +20,33 @@ public class DownloadBaikePicture implements PageProcessor{
 
     @Override
     public void process(Page page) {
-        String urlSring = page.getHtml().xpath("//div[@class='summary-pic']//img/@src").get();
-        try {
-            URL url = new URL(urlSring);
-            DataInputStream dataInputStream = new DataInputStream(url.openStream());
-            String name = page.getHtml().xpath("//dd[@class='lemmaWgt-lemmaTitle-title']/h1/text()").get() + ".png";
-            File file = new File("F:\\pic\\");
-            if(!file.isDirectory()){
-                file.mkdir();
+        String logoDiv = page.getHtml().xpath("//div[@class='summary-pic']/text()").get();
+        if(logoDiv != null){
+            String urlSring = page.getHtml().xpath("//div[@class='summary-pic']//img/@src").get();
+            try {
+                URL url = new URL(urlSring);
+                DataInputStream dataInputStream = new DataInputStream(url.openStream());
+                String name = page.getHtml().xpath("//dd[@class='lemmaWgt-lemmaTitle-title']/h1/text()").get() + ".png";
+                File file = new File("F:\\pic\\");
+                if(!file.isDirectory()){
+                    file.mkdir();
+                }
+                FileOutputStream fileOutputStream = new FileOutputStream("F:\\pic\\" + name);
+                byte[] buffer = new byte[1024];
+                int length;
+                while((length = dataInputStream.read(buffer)) > 0){
+                    fileOutputStream.write(buffer, 0, length);
+                }
+                dataInputStream.close();
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            FileOutputStream fileOutputStream = new FileOutputStream("F:\\pic\\" + name);
-            byte[] buffer = new byte[1024];
-            int length;
-            while((length = dataInputStream.read(buffer)) > 0){
-                fileOutputStream.write(buffer, 0, length);
-            }
-            dataInputStream.close();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        }else {
+
         }
 
-        System.out.println();
+
     }
 
     @Override
@@ -49,7 +55,8 @@ public class DownloadBaikePicture implements PageProcessor{
     }
 
     public static void main(String[] args) {
-        String key = "中国石油化工股份有限公司";
+
+        String key = "中石油管道有限责任公司";
         String url = "http://baike.baidu.com/item/" + key;
         Spider.create(new DownloadBaikePicture())
                 .addUrl(url)
