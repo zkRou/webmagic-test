@@ -2,6 +2,7 @@ package com.kris.webmagic.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -20,8 +21,8 @@ import java.util.List;
  */
 public class ExcelUtil {
 
-    public static <T> List<T> read(String fileName){
-        List<T> list = new ArrayList<T>();
+    public static  List<String> read(String fileName){
+        List<String> list = new ArrayList<String>();
         try {
             InputStream inputStream = new FileInputStream(fileName);
             Workbook workbook = null;
@@ -39,6 +40,9 @@ public class ExcelUtil {
                     Iterator<Row> rowIterator = sheet.rowIterator();
                     while (rowIterator.hasNext()){
                         Row row = rowIterator.next();
+                        Cell cell = row.getCell(0);
+                        String value = cell.getStringCellValue();
+                        list.add(value);
                     }
                 }
             }
