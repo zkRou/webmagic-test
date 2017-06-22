@@ -1,4 +1,4 @@
-package com.kris.webmagic;
+package com.kris.webmagic.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

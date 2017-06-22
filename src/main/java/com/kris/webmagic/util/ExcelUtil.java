@@ -1,16 +1,13 @@
 package com.kris.webmagic.util;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import sun.security.provider.SHA;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +19,7 @@ import java.util.List;
 public class ExcelUtil {
 
     public static  List<String> read(String fileName){
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         try {
             InputStream inputStream = new FileInputStream(fileName);
             Workbook workbook = null;
@@ -51,6 +48,13 @@ public class ExcelUtil {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public static void main(String[] args) {
+        List<String> list = ExcelUtil.read("E:\\webmagic\\name.xlsx");
+        for(String s : list){
+            System.out.println(s);
+        }
     }
 
 }

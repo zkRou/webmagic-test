@@ -1,4 +1,4 @@
-package com.kris.webmagic;
+package com.kris.webmagic.service;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
