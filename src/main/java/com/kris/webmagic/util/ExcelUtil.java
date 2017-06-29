@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,8 +21,9 @@ public class ExcelUtil {
 
     public static  List<String> read(String fileName){
         List<String> list = new ArrayList<>();
+        InputStream inputStream = null;
         try {
-            InputStream inputStream = new FileInputStream(fileName);
+            inputStream = new FileInputStream(fileName);
             Workbook workbook = null;
             if(fileName.endsWith("xls")){
                 workbook = new HSSFWorkbook(inputStream);
@@ -46,6 +48,12 @@ public class ExcelUtil {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
