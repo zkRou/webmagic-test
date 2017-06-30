@@ -65,7 +65,7 @@ public class DownloadBaikePictureService implements PageProcessor{
         return site;
     }
 
-    public void downloadBaikePicture() {
+    public void downloadBaikePicture(DownloadBaikePictureService downloadBaikePictureService) {
         String key = "中国石油天然气股份有限公司";
         String url = "http://baike.baidu.com/item/" + key;
         /*List<String> list = ExcelUtil.read("E:\\webmagic\\name.xlsx");
@@ -76,7 +76,7 @@ public class DownloadBaikePictureService implements PageProcessor{
                     .run();
         }*/
 
-        Spider.create(new DownloadBaikePictureService())
+        Spider.create(downloadBaikePictureService)
                 .addUrl(url)
                 .run();
 

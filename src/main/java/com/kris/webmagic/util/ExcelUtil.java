@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -57,6 +58,65 @@ public class ExcelUtil {
         }
         return list;
     }
+
+    public static void write(String fileName, List<String> list) {
+        FileOutputStream fileOutputStream = null;
+        try {
+            Workbook wb = new XSSFWorkbook();
+            Sheet sheet = wb.createSheet();
+            for (int i = 0; i < list.size(); i++) {
+                Row row = sheet.createRow(i);
+                Cell cell = row.createCell(0);
+                cell.setCellValue(list.get(i));
+            }
+            fileOutputStream = new FileOutputStream(fileName);
+            wb.write(fileOutputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void overwrite(String fileName, List<String> list) {
+        InputStream inputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            inputStream = new FileInputStream(fileName);
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            int sheetSize = workbook.getNumberOfSheets();
+            Sheet sheet = workbook.createSheet("sheet" + sheetSize);
+            for (int i = 0; i < list.size(); i++) {
+                Row row = sheet.createRow(i);
+                Cell cell = row.createCell(0);
+                cell.setCellValue(list.get(i));
+            }
+
+            fileOutputStream = new FileOutputStream(fileName);
+            workbook.write(fileOutputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     public static void main(String[] args) {
         List<String> list = ExcelUtil.read("E:\\webmagic\\name.xlsx");

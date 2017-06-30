@@ -16,7 +16,7 @@ public class Application implements ApplicationContextAware{
         SpringApplication.run(Application.class, args);
 
         DownloadBaikePictureService downloadBaikePictureService = applicationContext.getBean(DownloadBaikePictureService.class);
-        downloadBaikePictureService.downloadBaikePicture();
+        downloadBaikePictureService.downloadBaikePicture(downloadBaikePictureService);
     }
 
     @Override
